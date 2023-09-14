@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    
+    <title>Call Api</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <style>
+        #container{
+            align-items: center;
+            justify-content: space-around;
+            margin-left: 30%;
+            margin-top: 10%;
+            }
+        .card {
+            box-shadow: 0 12px 12px 0 rgba(0, 0, 0, 0.3);
+            width: 50%;
+            text-align: center;
+            justify-content: space-around;
+        }
+
+        .card-body {
+            width: 50%;
+            margin-top: 5px;
+            margin-left: 25%;
+            margin-right: 25%;
+            justify-content: space-around;
+        }
+
+        .card-body-title span {
+            color: var(--primary-color);
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .card-body-text {
+            color: var(--primary-color);
+            font-size: 1.6 rem;
+            margin-top: 0px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .card-footer-social {
+            text-align: center;
+            margin-top: 2 rem;
+            margin-bottom: 2 rem;
+        }
+
+        .card-footer-social p {
+            letter-spacing: 1 px;
+        }
+
+        .card:hover {
+            transform: scale(0.9, 0.9);
+            box-shadow: 5px 5px 30px 15 px rgba(0, 0, 0, 0.25) 
+            5px 5px 30px 15 px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="container">
+
+    </div>
+    <script>
+
+        const container = document.querySelector('#container');
+        const request = new XMLHttpRequest();
+        request.open('GET', "https://restcountries.com/v3.1/name/Malaysia");
+        request.send();
+
+        request.addEventListener('load', function () {
+            const [data] = JSON.parse(this.responseText);
+            // console.log(data.capital);
+            const htmlData =`
+                <div class="card">
+                    <div class="card-body">
+                        <img src="${data.flags.svg}" alt="Flag" class="card-body" />
+                        <h1 class="card-body-title">
+                            ${data.name.nativeName.eng.common}<span></span>
+                        </h1>
+                        <p class="card-body-text"> capital : ${data.capital}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer-social">
+                            <h3>${data.languages.msa}</h3>
+                            <p>Native Language</p>
+                        </div>
+                        <div class="card-footer-social">
+                            <h3>${data.population}</h3>
+                            <p>Population</p>
+                        </div>
+                        <div class="card-footer-social">
+                            <h3>${data.currencies.MYR.name}</h3>
+                            <p>Currency</p>
+                        </div>
+                    </div>
+                </div>;`
+            container.insertAdjacentHTML("afterbegin", htmlData)
+        })
+
+    </script>
+</body>
+
+</html>
